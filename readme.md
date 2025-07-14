@@ -141,7 +141,84 @@ A FastAPI-based backend that handles:
 
 ---
 
-## Deployment & Security
+##  Deployment & Security
 
-> ⚠️ The **only publicly exposed component** was the scanner API via NGINX.  
-> Use this system **at your own risk**. No guarantees or warranties are provided.
+This system is intended to be deployed on a **Linux host** with each component running in a **Python virtual environment** and served by **Uvicorn** (except for the backend). The deployment follows the principle of least privilege for enhanced security.
+
+###  Components
+
+Each service should run under a **dedicated system user** with **minimal privileges** to isolate responsibilities and reduce potential attack surfaces:
+
+1. **Admin Service**
+
+   * Command: `uvicorn api:app`
+   * User: `admin_service`
+
+2. **Scanner API** *(publicly exposed)*
+
+   * Command: `uvicorn main:app`
+   * User: `scanner_service`
+   * **Exposed via NGINX reverse proxy**
+
+3. **Backend Service** *(headless)*
+
+   * Command: `xvfb-run -a python3 final.py`
+   * User: `backend_service`
+
+###  Security Guidelines
+
+* **Service Isolation**: Each service must run under a separate Linux user. For example:
+
+  ```bash
+  sudo adduser --system --no-create-home admin_service
+  sudo adduser --system --no-create-home scanner_service
+  sudo adduser --system --no-create-home backend_service
+  ```
+
+  Adjust file permissions and ownership accordingly.
+
+* **Least Privilege Principle**: Ensure each user only has access to the files and environment variables necessary for its service.
+
+* **Public Exposure**:
+  ⚠️ **The Scanner API was the only service publicly exposed**.
+  It should be routed through a hardened **NGINX** reverse proxy with:
+
+  * TLS enabled
+  * Rate limiting
+  * IP whitelisting (if feasible)
+  * Basic auth or other authentication if appropriate
+  * Example config is availble under scanner
+
+* **Virtual Environments**:
+  Use a separate Python virtual environment per service to avoid dependency conflicts and improve isolation:
+
+  ```bash
+  python3 -m venv /opt/envs/admin_env
+  python3 -m venv /opt/envs/scanner_env
+  python3 -m venv /opt/envs/backend_env
+  ```
+
+* **Process Management**:
+  Use **`systemd`** service files to manage startup, shutdown, logging, and restarts for each component. For example:
+
+  ```ini
+  [Unit]
+  Description=Scanner API Service
+  After=network.target
+
+  [Service]
+  User=scanner_service
+  Group=scanner_service
+  WorkingDirectory=/opt/scanner
+  ExecStart=/opt/envs/scanner_env/bin/uvicorn main:app --host 127.0.0.1 --port 8000
+  Restart=on-failure
+
+  [Install]
+  WantedBy=multi-user.target
+  ```
+
+### ⚠️ Disclaimer
+
+> This system is **experimental** and comes with **no guarantees or warranties**.
+> You are responsible for securing, auditing, and maintaining the deployment. Use **at your own risk**.
+
