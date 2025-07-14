@@ -52,19 +52,29 @@ A FastAPI-based backend that handles:
 
 ## 💻 Frontend
 
+
+
+
 ### 1. **Scanner Interface** (scanner)
 - `index.html` + `script.js`
 - Real-time QR code scanning using [`html5-qrcode`](https://github.com/mebjas/html5-qrcode)
 - Manual ticket ID entry as a fallback
+
+<img width="1055" height="1902" alt="image" src="https://github.com/user-attachments/assets/50fb45e7-bcee-4479-8d76-10f4fc29382e" />
 
 ### 2. **Admin Dashboard** (admin)
 - `tickets.html` + `ticket.js`
 - Search, edit, import, and print tickets
 - Category and format-based printing
 
+<img width="938" height="930" alt="Bildschirmfoto 2025-07-14 um 21 50 16" src="https://github.com/user-attachments/assets/6420687f-caa8-4af2-a681-201802e5ac72" />
+
+
 ### 3. **Seat Management** (admin)
 - `seats.html`
 - Manage ticket number pools and allocations
+
+<img width="1055" height="1902" alt="image" src="https://github.com/user-attachments/assets/50fb45e7-bcee-4479-8d76-10f4fc29382e" />
 
 ### 4. **System Logs** (admin)
 - `logs.html`
