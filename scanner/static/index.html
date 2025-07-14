@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MK Waldburg-Hannober Ticket Scanner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/png" href="/static/favicon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/style.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <img src="logo.png" alt="MK" class="logo">
+            <h1>Ticket Scanner</h1>
+            <div class="header-controls">
+                <div class="manual-toggle-container">
+                    <label class="switch">
+                        <input type="checkbox" id="manual-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <button id="logout-btn" class="logout-btn" type="button">Logout</button>
+            </div>
+        </header>
+
+
+
+
+        <div id="result">
+            <div class="ticket-info neutral">
+                <h2>Ticket Information</h2>
+                <p><strong>Ticket:</strong> <span id="ticket-type">-</span></p>
+                <p><strong>Nummer:</strong> <span id="ticket-number">-</span></p>
+                <p><strong>Name:</strong> <span id="ticket-name">-</span></p>
+                <p><strong>Status:</strong> <span id="ticket-status" class="status-badge neutral">Bereit zum
+                        Scannen</span></p>
+                <p id="check-in-time" class="hidden">
+                    <strong>Zuletzt gescannt:</strong> <span id="last-scan"></span>
+                </p>
+            </div>
+        </div>
+
+
+        <div class="manual-input hidden">
+            <h2>Manuelle Ticketprüfung</h2>
+            <form id="manual-form" autocomplete="off">
+                <input type="text" id="main-code" maxlength="7" inputmode="numeric" pattern="\d*"
+                    placeholder="7-stelliger Code" required />
+                <select id="ticket-type-selector" required>
+                    <option value="TRI">TRIB</option>
+                    <option value="STEH">STEH</option>
+                    <option value="ETRI">ETRIB</option>
+                    <option value="ESTEH">ESTEH</option>
+                </select>
+                <input type="text" id="ticket-number-in" maxlength="3" inputmode="numeric" pattern="\d*"
+                    placeholder="Ticket-Nr. (3-stellig)" required />
+                <button type="submit">Prüfen</button>
+            </form>
+        </div>
+
+        <div id="reader-container">
+            <div id="reader"></div>
+        </div>
+
+
+    </div>
+
+    <script src="./html5-qrcode.min.js"></script>
+    <script src="/static/script3927.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+2025-07-06 20:29:29,069 - INFO - Starting ticket processing system...
+2025-07-06 20:29:33,626 - INFO - Checking WP for new tickets
+2025-07-06 20:29:33,735 - ERROR - Critical error, restarting process: Message: unknown error: net::ERR_NAME_NOT_RESOLVED
+  (Session info: chrome=138.0.7204.49)
+Stacktrace:
+0   chromedriver                        0x0000000100c9e654 cxxbridge1$str$ptr + 2723108
+1   chromedriver                        0x0000000100c968c8 cxxbridge1$str$ptr + 2690968
+2   chromedriver                        0x00000001007ea714 cxxbridge1$string$len + 90428
+3   chromedriver                        0x00000001007e2900 cxxbridge1$string$len + 58152
+4   chromedriver                        0x00000001007d5888 cxxbridge1$string$len + 4784
+5   chromedriver                        0x00000001007d728c cxxbridge1$string$len + 11444
+6   chromedriver                        0x00000001007d5cdc cxxbridge1$string$len + 5892
+7   chromedriver                        0x00000001007d5630 cxxbridge1$string$len + 4184
+8   chromedriver                        0x00000001007d537c cxxbridge1$string$len + 3492
+9   chromedriver                        0x00000001007d3134 chromedriver + 192820
+10  chromedriver                        0x00000001007d3b90 chromedriver + 195472
+11  chromedriver                        0x00000001007ed778 cxxbridge1$string$len + 102816
+12  chromedriver                        0x0000000100873870 cxxbridge1$string$len + 651928
+13  chromedriver                        0x0000000100872de8 cxxbridge1$string$len + 649232
+14  chromedriver                        0x00000001008259c8 cxxbridge1$string$len + 332784
+15  chromedriver                        0x0000000100c62278 cxxbridge1$str$ptr + 2476360
+16  chromedriver                        0x0000000100c6550c cxxbridge1$str$ptr + 2489308
+17  chromedriver                        0x0000000100c43a64 cxxbridge1$str$ptr + 2351412
+18  chromedriver                        0x0000000100c65d94 cxxbridge1$str$ptr + 2491492
+19  chromedriver                        0x0000000100c34d58 cxxbridge1$str$ptr + 2290728
+20  chromedriver                        0x0000000100c85d60 cxxbridge1$str$ptr + 2622512
+21  chromedriver                        0x0000000100c85eec cxxbridge1$str$ptr + 2622908
+22  chromedriver                        0x0000000100c96514 cxxbridge1$str$ptr + 2690020
+23  libsystem_pthread.dylib             0x000000018755dc0c _pthread_start + 136
+24  libsystem_pthread.dylib             0x0000000187558b80 thread_start + 8
+

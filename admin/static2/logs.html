@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>System Logs</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .logs-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+
+        .log-entry {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            font-family: monospace;
+            white-space: pre-wrap;
+            display: flex;
+            gap: 15px;
+        }
+
+        .log-entry:last-child {
+            border-bottom: none;
+        }
+
+        .log-timestamp {
+            color: #666;
+            min-width: 180px;
+        }
+
+        .log-level {
+            min-width: 80px;
+            font-weight: bold;
+        }
+
+        .log-level.INFO {
+            color: #2ecc71;
+        }
+
+        .log-level.WARNING {
+            color: #f1c40f;
+        }
+
+        .log-level.ERROR {
+            color: #e74c3c;
+        }
+
+        .log-message {
+            color: #2c3e50;
+            flex-grow: 1;
+        }
+
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .auto-refresh {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        #refreshInterval {
+            width: 80px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+    
+            <div class="navbar-links">
+                <a href="tickets.html">Ticket Management</a>
+                <a href="seats.html">Number Pool</a>
+                <a href="logs.html" class="active">System Logs</a>
+                <a href="#" onclick="logout()" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="controls">
+            <button onclick="refreshLogs()" class="refresh-btn">
+                <i class="fas fa-sync"></i> Refresh Logs
+            </button>
+            <div class="auto-refresh">
+                <input type="checkbox" id="autoRefresh" onchange="toggleAutoRefresh()">
+                <label for="autoRefresh">Auto-refresh every</label>
+                <select id="refreshInterval" onchange="updateRefreshInterval()">
+                    <option value="5000">5 sec</option>
+                    <option value="10000" selected>10 sec</option>
+                    <option value="30000">30 sec</option>
+                    <option value="60000">1 min</option>
+                </select>
+            </div>
+        </div>
+        <div id="logs" class="logs-container">
+            <div class="loading">Loading logs...</div>
+        </div>
+    </div>
+
+    <script>
+        let refreshTimer = null;
+
+        async function loadLogs() {
+            try {
+                const response = await fetch('/api/logs', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+                    }
+                });
+
+                if (response.status === 401) {
+                    window.location.href = '/static2/login.html';
+                    return;
+                }
+
+                const data = await response.json();
+                const logsContainer = document.getElementById('logs');
+                
+                logsContainer.innerHTML = data.logs.map(log => `
+                    <div class="log-entry">
+                        <span class="log-timestamp">${log.timestamp}</span>
+                        <span class="log-level ${log.level}">${log.level}</span>
+                        <span class="log-message">${log.message}</span>
+                    </div>
+                `).join('');
+
+                // Scroll to bottom
+                logsContainer.scrollTop = logsContainer.scrollHeight;
+            } catch (error) {
+                console.error('Error loading logs:', error);
+            }
+        }
+
+        function refreshLogs() {
+            loadLogs();
+        }
+
+        function toggleAutoRefresh() {
+            const isChecked = document.getElementById('autoRefresh').checked;
+            const interval = parseInt(document.getElementById('refreshInterval').value);
+            
+            if (isChecked) {
+                refreshTimer = setInterval(loadLogs, interval);
+            } else {
+                clearInterval(refreshTimer);
+            }
+        }
+
+        function updateRefreshInterval() {
+            if (document.getElementById('autoRefresh').checked) {
+                clearInterval(refreshTimer);
+                toggleAutoRefresh();
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('authToken');
+            window.location.href = '/static2/login.html';
+        }
+
+        // Load logs on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!localStorage.getItem('authToken')) {
+                window.location.href = '/static2/login.html';
+                return;
+            }
+            loadLogs();
+        });
+    </script>
+</body>
+</html>

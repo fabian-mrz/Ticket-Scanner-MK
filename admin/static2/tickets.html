@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ticket Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-links">
+            <a href="tickets.html" class="active">Ticket Management</a>
+            <a href="seats.html">Number Pool</a>
+            <a href="logs.html">System Logs</a>
+            <a href="#" onclick="logout()" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="controls">
+            <div class="upload-section">
+                <input type="file" id="csvFile" accept=".csv" style="display: none">
+                <button class="upload-btn" onclick="document.getElementById('csvFile').click()">
+                    Select CSV File
+                </button>
+                <span id="selected-file"></span>
+                <button class="import-btn" onclick="uploadCSV()" disabled>
+                    Import Tickets
+                </button>
+            </div>
+            <div id="upload-status" class="status"></div>
+            <div class="vvk-export-section">
+                <button class="vvk-btn" onclick="exportToVVK()">
+                    <i class="fas fa-file-excel"></i> Export DB to VVK Excel
+                </button>
+                <div id="vvk-status" class="status"></div>
+            </div>
+            <div class="print-section">
+                <button class="print-btn" onclick="printTickets()">
+                    <i class="fas fa-print"></i> Print Categorized Tickets
+                </button>
+            </div>
+        </div>
+
+        <div class="search-section">
+            <div class="search-fields">
+                <div class="search-group">
+                    <input type="text" id="orderSearch" placeholder="Bestell-ID...">
+                    <input type="text" id="ticketSearch" placeholder="Ticket-Nr...">
+                </div>
+                <div class="search-group">
+                    <input type="text" id="nameSearch" placeholder="Name...">
+                    <input type="email" id="emailSearch" placeholder="Email...">
+                </div>
+                <div class="search-filters">
+                    <select id="typeFilter">
+                        <option value="">Alle Ticket-Typen</option>
+                        <option value="Tribüne">Tribüne</option>
+                        <option value="Sitz-/ Stehplatz">Sitz-/Stehplatz</option>
+                    </select>
+                    <select id="discountFilter">
+                        <option value="">Alle Preise</option>
+                        <option value="true">Ermäßigt</option>
+                        <option value="false">Normal</option>
+                    </select>
+                </div>
+            </div>
+            <div class="search-buttons">
+                <button onclick="searchTickets()" class="search-btn">
+                    <i class="fas fa-search"></i> Suchen
+                </button>
+                <button onclick="resetSearch()" class="reset-btn">
+                    <i class="fas fa-undo"></i> Zurücksetzen
+                </button>
+            </div>
+        </div>
+
+
+
+        <div class="controls">
+            <h2>Create New Ticket</h2>
+            <form id="createTicketForm" class="create-ticket-form">
+                <div class="form-group">
+                    <label>Ticket Type:</label>
+                    <select name="ticket_type" required>
+                        <option value="Tribüne">Tribüne</option>
+                        <option value="Tribüne ermäßigt">Tribüne ermäßigt</option>
+                        <option value="Sitz-/ Stehplatz">Sitz-/ Stehplatz</option>
+                        <option value="Sitz-/ Stehplatz ermäßigt">Sitz-/ Stehplatz ermäßigt</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Discounted:</label>
+                    <input type="checkbox" name="discounted">
+                </div>
+                <div class="form-group">
+                    <label>Name:</label>
+                    <input type="text" name="name_ticketinhaber" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Ticketinhaber:</label>
+                    <input type="email" name="email_ticketinhaber" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Käufer:</label>
+                    <input type="email" name="email_kaeufer" required>
+                </div>
+                <div class="form-group">
+                    <label>Bestell-ID:</label>
+                    <input type="text" name="bestell_id" required>
+                </div>
+                <button type="submit" class="create-btn">Create Ticket</button>
+            </form>
+            <div id="create-status" class="status"></div>
+        </div>
+
+        <div class="ticket-grid" id="ticketGrid"></div>
+    </div>
+
+    <script src="ticket.js"></script>
+    <script>// Load tickets when page loads
+        loadTickets();</script>
+</body>
+
+</html>
