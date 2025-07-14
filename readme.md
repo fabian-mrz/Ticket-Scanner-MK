@@ -68,13 +68,15 @@ A FastAPI-based backend that handles:
 - Category and format-based printing
 
 <img width="938" height="930" alt="Bildschirmfoto 2025-07-14 um 21 50 16" src="https://github.com/user-attachments/assets/6420687f-caa8-4af2-a681-201802e5ac72" />
+<img width="2010" height="718" alt="image" src="https://github.com/user-attachments/assets/21f2b085-e15f-4137-9d9f-db0258c25388" />
 
 
 ### 3. **Seat Management** (admin)
 - `seats.html`
 - Manage ticket number pools and allocations
 
-<img width="1055" height="1902" alt="image" src="https://github.com/user-attachments/assets/50fb45e7-bcee-4479-8d76-10f4fc29382e" />
+<img width="3158" height="1674" alt="image" src="https://github.com/user-attachments/assets/23e467b3-f90b-41af-94bf-d3f1358bc04a" />
+
 
 ### 4. **System Logs** (admin)
 - `logs.html`
